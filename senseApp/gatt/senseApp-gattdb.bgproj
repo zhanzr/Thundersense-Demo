@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project device="bluegecko">
+  
+  <gatt out="gatt_db.c" header="gatt_db.h" prefix="gattdb_">
+    
+    <service uuid="1800">
+      
+      <description>Generic Access Profile</description>
+      <!-- Device Name -->
+      
+      <characteristic uuid="2a00" id="device_name">
+		<properties read="true" write="true"/>
+		<value length="20" type="user" variable_length="true"/>
+	  </characteristic>
+      
+      <!-- Appearance -->
+      <characteristic uuid="2a01">
+        <properties read="true" const="true" />
+        <value type="hex">0</value>
+      </characteristic>
+      
+    </service>
+    
+	<service uuid="1801">
+      
+	  <description>Generic Attribute</description>
+	  <!-- Attribute Changed -->
+      
+	  <characteristic uuid="2a05">
+		<properties indicate="true"/>
+		<value length="4"/>
+	  </characteristic>
+      
+	</service>
+    
+    <service type="primary" uuid="180A">
+      
+      <description>Device Information</description>
+      
+      <!-- Manufacturer Name String -->
+      <characteristic uuid="2A29">
+        <properties read="true" const="true" />
+        <value>Silicon Laboratories</value>
+      </characteristic>
+      
+      <!-- Model Number String -->
+      <characteristic uuid="2A24">
+        <properties read="true" const="true" />
+        <value>BRD4160A</value>
+      </characteristic>
+      
+      <!-- Serial Number String -->
+      <characteristic uuid="2A25" id="board_serial">
+        <properties read="true"/>
+        <value>1234</value>
+      </characteristic>
+      
+      <!-- Hardware Revision String -->
+      <characteristic uuid="2A27" id="board_rev">
+        <properties read="true"/>
+        <value>A00</value>
+      </characteristic>
+      
+      <!-- Firmware Revision String -->
+      <characteristic uuid="2A26" id="firmware_rev">
+        <properties read="true"/>
+        <value>0.1.0</value>
+      </characteristic>
+      
+      <!-- System ID -->
+      <characteristic uuid="2A23" id ="system_id">        
+        <properties read="true" />
+        <!-- 5 byte Manufacturer Identifier + 3 byte
+             Organizationally Unique Identifier -->
+        <value type="hex">ffffffffffffffff</value>
+      </characteristic>
+            
+    </service>
+    
+    <service uuid="180F" advertise="true">
+
+      <description>Battery</description>
+      <!-- Battery Level -->
+
+      <characteristic uuid="2a19" id="batt_measurement">
+        <properties notify="true" read="true" const="false" />
+        <value length="1" type ="user"/>
+      </characteristic>
+      
+    </service>
+    
+	<service uuid="181a">
+      
+	  <description>Environmental Sensing</description>
+      
+	  <characteristic id="es_uvindex" uuid="2a76">
+		<!-- UV Index : uint8 : None -->
+		<properties read="true"/>
+		<value length="1" type="user"/>
+	  </characteristic>
+
+	  <characteristic id="es_pressure" uuid="2a6d">
+		<!-- Pressure : uint32 : 0.1Pa -->
+		<properties read="true"/>
+		<value length="4" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="es_temperature" uuid="2a6e">
+		<!-- Temperature : sint16 : 0.01 Celsius -->
+		<properties read="true"/>
+		<value length="2" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="es_humidity" uuid="2a6f">
+		<!-- Humidity : uint16 : 0.01% -->
+		<properties read="true"/>
+		<value length="2" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="es_ambient_light" uuid="c8546913-bfd9-45eb-8dde-9f8754f4a32e">
+		<!-- Ambient Light : uint32 : 0.01 Lux -->
+		<properties read="true"/>
+		<value length="4" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="es_sound_level" uuid="c8546913-bf02-45eb-8dde-9f8754f4a32e">
+		<!-- Sound Level : sint16 : 0.01 dBA -->
+		<properties read="true"/>
+		<value length="2" type="user"/>
+	  </characteristic>
+
+	  <characteristic id="es_control_point" uuid="c8546913-bf03-45eb-8dde-9f8754f4a32e">
+		<!-- Control Point -->
+		<properties const="false" indicate="true" write="true"/>
+		<value length="4" type="user"/>
+	  </characteristic>      
+
+	</service>
+    
+
+	<service uuid="ec61a454-ed00-a5e8-b8f9-de9ec026ec51">
+      
+	  <description>Power Management</description>
+      
+	  <characteristic id="power_source_type" uuid="ec61a454-ed01-a5e8-b8f9-de9ec026ec51">
+	    <!-- 0x00 : POWER_SOURCE_TYPE_UNKNOWN   -->
+	    <!-- 0x01 : POWER_SOURCE_TYPE_USB       -->
+	    <!-- 0x02 : POWER_SOURCE_TYPE_AA        -->
+	    <!-- 0x03 : POWER_SOURCE_TYPE_AAA       -->
+	    <!-- 0x04 : POWER_SOURCE_TYPE_COIN_CELL -->
+	    <properties read="true"/>
+	    <value length="1" type="user"/>
+	  </characteristic>
+      
+	</service>
+
+	<service uuid="efd658ae-c400-ef33-76e7-91b00019103b">
+      
+	  <description>Indoor Air Quality Sensor</description>
+      
+	  <characteristic id="iaq_eco2" uuid="efd658ae-c401-ef33-76e7-91b00019103b">
+	    <!-- eCO2 reading : uint16 : ppm : [400,5000] -->
+	    <properties read="true"/>
+	    <value length="2" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="iaq_tvoc" uuid="efd658ae-c402-ef33-76e7-91b00019103b">
+		<!-- TVOC reading : uint16 : ppb : [0,1000] -->
+		<properties read="true"/>
+		<value length="2" type="user"/>
+	  </characteristic>
+
+	  <characteristic id="iaq_control_point" uuid="efd658ae-c403-ef33-76e7-91b00019103b">
+		<!-- Control Point -->
+		<properties const="false" indicate="true" write="true"/>
+		<value length="4" type="user"/>
+	  </characteristic>
+      
+	</service>
+
+	<service uuid="fcb89c40-c600-59f3-7dc3-5ece444a401b">
+
+	  <description>User Interface</description>
+      
+	  <characteristic id="ui_buttons" uuid="fcb89c40-c601-59f3-7dc3-5ece444a401b">
+		<!-- 2 Push buttons -->
+		<properties read="true"/>
+		<value length="1" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="ui_leds" uuid="fcb89c40-c602-59f3-7dc3-5ece444a401b">
+		<!-- 2 LED -->
+		<properties const="false" indicate="true" write="true"/>
+		<value length="1" type="user"/>
+	  </characteristic>
+      
+	  <characteristic id="ui_rgbleds" uuid="fcb89c40-c603-59f3-7dc3-5ece444a401b">
+		<!-- RGB LEDs -->
+		<properties const="false" indicate="true" read="true" write="true"/>
+		<value length="4" type="user"/>
+	  </characteristic>
+
+	  <characteristic id="ui_control_point" uuid="fcb89c40-c604-59f3-7dc3-5ece444a401b">
+		<!-- Control Point -->
+		<properties const="false" indicate="true" write="true"/>
+		<value length="2" type="user"/>
+	  </characteristic>
+      
+	</service>
+    
+	<service uuid="1815">
+      
+	  <description>Automation IO</description>
+      
+	  <characteristic id="aio_digital_in" uuid="2a56">
+		<!-- Digital Input -->
+		<properties notify="true" read="true"/>
+		<value length="1" type="user"/>
+		<!-- Characteristic Presentation Format -->
+		<descriptor uuid="2904">
+		  <properties const="true" read="true"/>
+		  <value type="hex">1B000027010200</value>
+		</descriptor>
+		<!-- Number of Digitals -->
+		<descriptor uuid="2909">
+		  <properties const="true" read="true"/>
+		  <value type="hex">02</value>
+		</descriptor>
+	  </characteristic>
+      
+	  <characteristic id="aio_digital_out" uuid="2a56">
+		<!-- Digital Output -->
+		<properties read="true" write="true"/>
+		<value length="1" type="user"/>
+		<!-- Characteristic Presentation Format -->
+		<descriptor uuid="2904">
+		  <properties const="true" read="true"/>
+		  <value type="hex">1B000027010100</value>
+		</descriptor>
+		<!-- Number of Digitals -->
+		<descriptor uuid="2909">
+		  <properties const="true" read="true"/>
+		  <value type="hex">02</value>
+		</descriptor>
+	  </characteristic>
+
+	</service>
+
+	<service uuid="a4e649f4-4be5-11e5-885d-feff819cdc9f">
+
+      <description>IMU</description>
+
+      <characteristic id="imu_acceleration" uuid="c4c1f6e2-4be5-11e5-885d-feff819cdc9f">
+		<!-- Acceleration Measurement -->
+		<properties notify="true"/>
+		<value length="6"/>
+	  </characteristic>
+      
+	  <characteristic id="imu_orientation" uuid="b7c4b694-bee3-45dd-ba9f-f3b5e994f49a">
+		<!-- Orientation Measurement -->
+		<properties notify="true"/>
+		<value length="6"/>
+	  </characteristic>
+      
+	  <characteristic id="imu_control_point" uuid="71e30b8c-4131-4703-b0a0-b0bbba75856b">
+		<!-- Control Point -->
+		<properties const="false" indicate="true" write="true"/>
+		<value length="3" type="user"/>
+	  </characteristic>
+      
+	</service>
+
+  </gatt>
+
+</project>
+
